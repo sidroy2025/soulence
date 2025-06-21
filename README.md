@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Soulence - Mental Wellness App for Students
 
 A comprehensive mental wellness platform designed specifically for students, featuring AI-powered support, academic task management, and emotional well-being tracking.
@@ -268,3 +269,7 @@ For support and questions:
 - [ ] Add real-time notifications
 - [ ] Implement advanced AI features
 - [ ] Deploy to production infrastructure
+=======
+# soulence
+Mental wellness and academic management app with AI-powered passive feedback loops and LangGraph agents
+>>>>>>> 370f28c226bfc63b28f00274da438c34967ac97e
