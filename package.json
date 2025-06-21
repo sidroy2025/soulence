@@ -1,0 +1,33 @@
+{
+  "name": "soulence",
+  "version": "1.0.0",
+  "description": "Mental wellness app for students",
+  "private": true,
+  "workspaces": [
+    "backend/services/*",
+    "backend/shared/*",
+    "frontend/web",
+    "mobile"
+  ],
+  "scripts": {
+    "install:all": "npm install",
+    "dev:backend": "npm run dev --workspaces --if-present",
+    "dev:web": "npm run dev --workspace=frontend/web",
+    "dev:mobile": "npm run dev --workspace=mobile",
+    "build:all": "npm run build --workspaces --if-present",
+    "test": "npm run test --workspaces --if-present",
+    "lint": "npm run lint --workspaces --if-present"
+  },
+  "devDependencies": {
+    "@types/node": "^18.19.0",
+    "@typescript-eslint/eslint-plugin": "^6.0.0",
+    "@typescript-eslint/parser": "^6.0.0",
+    "eslint": "^8.54.0",
+    "prettier": "^3.1.0",
+    "typescript": "^5.3.0"
+  },
+  "engines": {
+    "node": ">=18.0.0",
+    "npm": ">=8.0.0"
+  }
+}

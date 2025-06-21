@@ -1,0 +1,23 @@
+{
+  "name": "@soulence/utils",
+  "version": "1.0.0",
+  "description": "Shared utilities for Soulence",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc --watch"
+  },
+  "dependencies": {
+    "@soulence/models": "^1.0.0",
+    "bcrypt": "^5.1.1",
+    "jsonwebtoken": "^9.0.2",
+    "winston": "^3.11.0",
+    "joi": "^17.11.0",
+    "dotenv": "^16.3.1"
+  },
+  "devDependencies": {
+    "@types/bcrypt": "^5.0.2",
+    "@types/jsonwebtoken": "^9.0.5"
+  }
+}

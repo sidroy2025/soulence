@@ -1,0 +1,11 @@
+# Soulence .gitignore 
+node_modules/ 
+__pycache__/ 
+*.pyc 
+venv/ 
+.env 
+*.log 
+.vscode/ 
+.DS_Store 
+build/ 
+dist/ 

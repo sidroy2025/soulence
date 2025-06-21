@@ -1,0 +1,25 @@
+{
+  "name": "@soulence/middleware",
+  "version": "1.0.0",
+  "description": "Shared middleware for Soulence services",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc --watch"
+  },
+  "dependencies": {
+    "@soulence/utils": "^1.0.0",
+    "@soulence/models": "^1.0.0",
+    "express": "^4.18.2",
+    "express-rate-limit": "^7.1.5",
+    "helmet": "^7.1.0",
+    "cors": "^2.8.5",
+    "compression": "^1.7.4"
+  },
+  "devDependencies": {
+    "@types/express": "^4.17.21",
+    "@types/cors": "^2.8.17",
+    "@types/compression": "^1.7.5"
+  }
+}
