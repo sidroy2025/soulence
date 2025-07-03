@@ -32,10 +32,10 @@ if %errorlevel% neq 0 (
     exit /b 1
 )
 
-REM Push to remote
+REM Push to remote with upstream tracking
 echo.
 echo Pushing to GitHub...
-git push
+git push --set-upstream origin main
 
 if %errorlevel% equ 0 (
     echo.
