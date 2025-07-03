@@ -1,8 +1,8 @@
 import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
-import { useAuthStore } from '@/stores/authStore';
-import { LoginRequest } from '@/types/auth';
+import { useAuthStore } from '../stores/authStore';
+import { LoginRequest } from '../types/auth';
 import { Eye, EyeOff, Heart } from 'lucide-react';
 import toast from 'react-hot-toast';
 
@@ -44,6 +44,13 @@ export const LoginPage: React.FC = () => {
           <p className="mt-2 text-center text-sm text-gray-600">
             Your mental wellness companion
           </p>
+          
+          {/* Demo credentials */}
+          <div className="mt-4 p-3 bg-blue-50 border border-blue-200 rounded-md">
+            <p className="text-sm text-blue-800 text-center">
+              <strong>Demo Mode:</strong> Login with any email/password (e.g., demo@student.com / password)
+            </p>
+          </div>
         </div>
 
         <form className="mt-8 space-y-6" onSubmit={handleSubmit(onSubmit)}>

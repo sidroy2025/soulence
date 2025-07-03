@@ -14,6 +14,8 @@ services:
     volumes:
       - postgres_data:/var/lib/postgresql/data
       - ./database/schema.sql:/docker-entrypoint-initdb.d/01-schema.sql:ro
+      - ./database/academic_service_schema.sql:/docker-entrypoint-initdb.d/02-academic-schema.sql:ro
+      - ./database/sleep_service_schema.sql:/docker-entrypoint-initdb.d/03-sleep-schema.sql:ro
     networks:
       - soulence-network
 
@@ -166,6 +168,88 @@ services:
       DB_PASSWORD: postgres
       REDIS_URL: redis://redis:6379
       JWT_SECRET: dev-secret-change-in-production
+    networks:
+      - soulence-network
+
+  # Wellness Service
+  wellness-service:
+    build:
+      context: ./backend/services/wellness
+      dockerfile: Dockerfile
+    container_name: soulence-wellness-service
+    depends_on:
+      - postgres
+      - redis
+    ports:
+      - "3002:3002"
+    environment:
+      NODE_ENV: development
+      WELLNESS_SERVICE_PORT: 3002
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_NAME: soulence
+      DB_USER: postgres
+      DB_PASSWORD: postgres
+      REDIS_URL: redis://redis:6379
+      JWT_SECRET: dev-secret-change-in-production
+    networks:
+      - soulence-network
+
+  # Academic Service
+  academic-service:
+    build:
+      context: ./backend/services/academic
+      dockerfile: Dockerfile
+    container_name: soulence-academic-service
+    depends_on:
+      - postgres
+      - redis
+    ports:
+      - "3003:3003"
+    environment:
+      NODE_ENV: development
+      ACADEMIC_SERVICE_PORT: 3003
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_NAME: soulence
+      DB_USER: postgres
+      DB_PASSWORD: postgres
+      REDIS_URL: redis://redis:6379
+      JWT_SECRET: dev-secret-change-in-production
+      # Canvas OAuth Configuration
+      CANVAS_CLIENT_ID: ${CANVAS_CLIENT_ID:-}
+      CANVAS_CLIENT_SECRET: ${CANVAS_CLIENT_SECRET:-}
+      CANVAS_REDIRECT_URI: ${CANVAS_REDIRECT_URI:-http://localhost:3000/canvas/callback}
+      CANVAS_AUTH_URL: ${CANVAS_AUTH_URL:-}
+      CANVAS_TOKEN_URL: ${CANVAS_TOKEN_URL:-}
+      CANVAS_API_URL: ${CANVAS_API_URL:-}
+    networks:
+      - soulence-network
+
+  # Sleep Service
+  sleep-service:
+    build:
+      context: ./backend/services/sleep
+      dockerfile: Dockerfile.simple
+    container_name: soulence-sleep-service
+    depends_on:
+      - postgres
+      - redis
+    ports:
+      - "3006:3006"
+    environment:
+      NODE_ENV: development
+      SLEEP_SERVICE_PORT: 3006
+      POSTGRES_HOST: postgres
+      POSTGRES_PORT: 5432
+      POSTGRES_DB: soulence
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
+      JWT_SECRET: dev-secret-change-in-production
+      DEMO_MODE: true
+      FRONTEND_URL: http://localhost:3000
     networks:
       - soulence-network
 

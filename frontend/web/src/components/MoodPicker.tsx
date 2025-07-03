@@ -59,25 +59,25 @@ export const MoodPicker: React.FC<MoodPickerProps> = ({
 
   const getEmotionStyle = (emotion: string, isSelected: boolean) => {
     const category = getEmotionCategory(emotion);
-    const baseStyle = "px-3 py-2 rounded-full text-sm font-medium transition-all duration-200 cursor-pointer";
+    const baseStyle = "px-4 py-3 rounded-lg text-sm font-medium transition-all duration-200 cursor-pointer hover:scale-105 hover:shadow-sm min-h-[44px] flex items-center justify-center";
     
     if (isSelected) {
       switch (category) {
         case 'positive':
-          return `${baseStyle} bg-green-100 text-green-800 border-2 border-green-300`;
+          return `${baseStyle} bg-green-100 text-green-800 border-2 border-green-300 ring-1 ring-green-200`;
         case 'negative':
-          return `${baseStyle} bg-red-100 text-red-800 border-2 border-red-300`;
+          return `${baseStyle} bg-red-100 text-red-800 border-2 border-red-300 ring-1 ring-red-200`;
         default:
-          return `${baseStyle} bg-gray-100 text-gray-800 border-2 border-gray-300`;
+          return `${baseStyle} bg-gray-100 text-gray-800 border-2 border-gray-300 ring-1 ring-gray-200`;
       }
     } else {
       switch (category) {
         case 'positive':
-          return `${baseStyle} bg-green-50 text-green-700 border border-green-200 hover:bg-green-100`;
+          return `${baseStyle} bg-green-50 text-green-700 border border-green-200 hover:bg-green-100 hover:border-green-300`;
         case 'negative':
-          return `${baseStyle} bg-red-50 text-red-700 border border-red-200 hover:bg-red-100`;
+          return `${baseStyle} bg-red-50 text-red-700 border border-red-200 hover:bg-red-100 hover:border-red-300`;
         default:
-          return `${baseStyle} bg-gray-50 text-gray-700 border border-gray-200 hover:bg-gray-100`;
+          return `${baseStyle} bg-gray-50 text-gray-700 border border-gray-200 hover:bg-gray-100 hover:border-gray-300`;
       }
     }
   };
@@ -99,16 +99,17 @@ export const MoodPicker: React.FC<MoodPickerProps> = ({
                 type="button"
                 onClick={() => onMoodChange(level.value)}
                 className={`
-                  relative p-3 rounded-lg border-2 transition-all duration-200 hover:scale-105
+                  relative p-3 md:p-4 rounded-xl border-2 transition-all duration-200 hover:scale-105 hover:shadow-md min-h-[60px] md:min-h-[70px]
                   ${selectedMood === level.value 
-                    ? 'border-primary-500 ring-2 ring-primary-200' 
-                    : 'border-gray-200 hover:border-gray-300'
+                    ? 'border-primary-500 ring-2 ring-primary-200 bg-primary-50' 
+                    : 'border-gray-200 hover:border-gray-300 bg-white'
                   }
                 `}
+                style={{ minWidth: '60px' }}
               >
                 <div className="text-center">
-                  <div className="text-2xl mb-1">{level.icon}</div>
-                  <div className="text-xs font-medium text-gray-600">{level.value}</div>
+                  <div className="text-3xl md:text-4xl mb-1">{level.icon}</div>
+                  <div className="text-sm md:text-base font-medium text-gray-700">{level.value}</div>
                 </div>
               </button>
             ))}

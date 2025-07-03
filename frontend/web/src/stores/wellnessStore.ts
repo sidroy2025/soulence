@@ -1,6 +1,6 @@
 import { create } from 'zustand';
-import { MoodLog, MoodStats, LogMoodRequest, CrisisResources } from '@/types/wellness';
-import { wellnessService } from '@/services/wellnessService';
+import { MoodLog, MoodStats, LogMoodRequest, CrisisResources } from '../types/wellness';
+import { wellnessService } from '../services/wellnessService';
 
 interface WellnessState {
   // State

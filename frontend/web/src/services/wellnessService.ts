@@ -6,10 +6,17 @@ import {
   CrisisResources,
   CrisisAlert 
 } from '@/types/wellness';
+import { mockApiService } from './mockApi';
+
+// Use mock API for demo (set to false when backend is available)
+const USE_MOCK_API = true;
 
 export const wellnessService = {
   // Log a new mood entry
   async logMood(data: LogMoodRequest): Promise<{ moodLog: MoodLog }> {
+    if (USE_MOCK_API) {
+      return await mockApiService.logMood(data);
+    }
     const response = await api.post('/mood', data);
     return response.data.data;
   },
@@ -20,12 +27,18 @@ export const wellnessService = {
     endDate?: string;
     limit?: number;
   }): Promise<MoodResponse['data']> {
+    if (USE_MOCK_API) {
+      return await mockApiService.getMoodHistory();
+    }
     const response = await api.get<MoodResponse>('/mood/history', { params });
     return response.data.data;
   },
 
   // Get today's mood
   async getTodayMood(): Promise<{ hasMoodToday: boolean; mood?: MoodLog }> {
+    if (USE_MOCK_API) {
+      return await mockApiService.getTodayMood();
+    }
     const response = await api.get('/mood/today');
     return response.data.data;
   },
@@ -54,6 +67,9 @@ export const wellnessService = {
 
   // Get crisis resources
   async getCrisisResources(): Promise<CrisisResources> {
+    if (USE_MOCK_API) {
+      return await mockApiService.getCrisisResources();
+    }
     const response = await api.get('/crisis/resources');
     return response.data.data;
   },

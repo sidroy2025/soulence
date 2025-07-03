@@ -1,16 +1,18 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { useAuthStore } from '@/stores/authStore';
-import { useWellnessStore } from '@/stores/wellnessStore';
-import { Layout } from '@/components/Layout';
-import { MoodHistory } from '@/components/MoodHistory';
+import { useAuthStore } from '../stores/authStore';
+import { useWellnessStore } from '../stores/wellnessStore';
+import { useSleepStore } from '../stores/sleepStore';
+import { Layout } from '../components/Layout';
+import { MoodHistory } from '../components/MoodHistory';
 import { 
   Heart, 
   Plus, 
   TrendingUp, 
   Calendar,
   AlertTriangle,
-  BookOpen
+  BookOpen,
+  Moon
 } from 'lucide-react';
 
 export const DashboardPage: React.FC = () => {
@@ -23,10 +25,36 @@ export const DashboardPage: React.FC = () => {
     loadMoodHistory 
   } = useWellnessStore();
 
+  const {
+    todaysSession,
+    analytics,
+    fetchTodaysSession,
+    fetchAnalytics
+  } = useSleepStore();
+
   React.useEffect(() => {
-    loadTodayMood();
-    loadMoodHistory();
-  }, [loadTodayMood, loadMoodHistory]);
+    const initializeDashboard = async () => {
+      try {
+        console.log('Dashboard: Loading mood data...');
+        await loadTodayMood();
+        await loadMoodHistory();
+        console.log('Dashboard: Mood data loaded');
+      } catch (error) {
+        console.error('Dashboard: Failed to load mood data:', error);
+      }
+
+      try {
+        console.log('Dashboard: Loading sleep data...');
+        await fetchTodaysSession();
+        await fetchAnalytics('7d');
+        console.log('Dashboard: Sleep data loaded');
+      } catch (error) {
+        console.error('Dashboard: Failed to load sleep data:', error);
+      }
+    };
+
+    initializeDashboard();
+  }, [loadTodayMood, loadMoodHistory, fetchTodaysSession, fetchAnalytics]);
 
   const getGreeting = () => {
     const hour = new Date().getHours();
@@ -166,6 +194,86 @@ export const DashboardPage: React.FC = () => {
               </div>
             )}
 
+            {/* Sleep Summary */}
+            <div className="bg-white shadow-sm rounded-lg p-6">
+              <h3 className="text-lg font-semibold text-gray-900 mb-4 flex items-center">
+                <Moon className="h-5 w-5 mr-2 text-purple-600" />
+                Sleep Summary
+              </h3>
+              
+              {todaysSession ? (
+                <div className="space-y-3">
+                  <div className="flex justify-between items-center">
+                    <span className="text-sm text-gray-600">Last Night</span>
+                    <span className="font-medium">
+                      {todaysSession.totalSleepDuration ? 
+                        `${Math.floor(todaysSession.totalSleepDuration / 60)}h ${todaysSession.totalSleepDuration % 60}m` 
+                        : 'N/A'
+                      }
+                    </span>
+                  </div>
+                  
+                  <div className="flex justify-between items-center">
+                    <span className="text-sm text-gray-600">Quality</span>
+                    <div className="flex items-center">
+                      <span className="font-medium mr-1">
+                        {todaysSession.qualityScore || 'N/A'}
+                      </span>
+                      {todaysSession.qualityScore && (
+                        <span className="text-xs text-gray-500">/10</span>
+                      )}
+                    </div>
+                  </div>
+                  
+                  <div className="flex justify-between items-center">
+                    <span className="text-sm text-gray-600">Energy Level</span>
+                    <div className="flex items-center">
+                      <span className="font-medium mr-1">
+                        {todaysSession.energyLevel || 'N/A'}
+                      </span>
+                      {todaysSession.energyLevel && (
+                        <span className="text-xs text-gray-500">/10</span>
+                      )}
+                    </div>
+                  </div>
+                </div>
+              ) : (
+                <div className="text-center py-6">
+                  <div className="relative">
+                    <Moon className="h-12 w-12 text-purple-200 mx-auto mb-3" />
+                    <div className="absolute -top-1 -right-1 w-4 h-4 bg-purple-100 rounded-full flex items-center justify-center">
+                      <span className="text-xs">💤</span>
+                    </div>
+                  </div>
+                  <h4 className="text-sm font-medium text-gray-900 mb-1">Track your first sleep session</h4>
+                  <p className="text-xs text-gray-500 mb-4">Understanding your sleep patterns helps improve your overall wellness</p>
+                  <Link
+                    to="/sleep"
+                    className="inline-flex items-center px-3 py-2 text-sm font-medium text-white bg-purple-600 rounded-md hover:bg-purple-700 transition-colors duration-200"
+                  >
+                    <Moon className="h-4 w-4 mr-1" />
+                    Log Sleep
+                  </Link>
+                </div>
+              )}
+              
+              {analytics && (
+                <div className="mt-4 pt-4 border-t border-gray-200">
+                  <div className="text-xs text-gray-500 mb-2">7-Day Average</div>
+                  <div className="flex justify-between text-sm">
+                    <span className="text-gray-600">Duration:</span>
+                    <span className="font-medium">
+                      {Math.floor(analytics.averageSleepDuration / 60)}h {analytics.averageSleepDuration % 60}m
+                    </span>
+                  </div>
+                  <div className="flex justify-between text-sm">
+                    <span className="text-gray-600">Quality:</span>
+                    <span className="font-medium">{analytics.averageQualityScore.toFixed(1)}/10</span>
+                  </div>
+                </div>
+              )}
+            </div>
+
             {/* Quick Actions */}
             <div className="bg-white shadow-sm rounded-lg p-6">
               <h3 className="text-lg font-semibold text-gray-900 mb-4">Quick Actions</h3>
@@ -179,12 +287,13 @@ export const DashboardPage: React.FC = () => {
                 </Link>
                 
                 <Link
-                  to="/learning"
-                  className="w-full flex items-center justify-center px-4 py-2 border border-blue-300 text-blue-700 rounded-md hover:bg-blue-50 transition-colors"
+                  to="/sleep"
+                  className="w-full flex items-center justify-center px-4 py-2 border border-purple-300 text-purple-700 rounded-md hover:bg-purple-50 transition-colors"
                 >
-                  <BookOpen className="h-4 w-4 mr-2" />
-                  Learning Hub
+                  <Moon className="h-4 w-4 mr-2" />
+                  Log Sleep
                 </Link>
+                
                 
                 <Link
                   to="/crisis"

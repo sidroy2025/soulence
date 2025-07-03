@@ -1,15 +1,25 @@
 import api from './api';
 import { AuthResponse, LoginRequest, RegisterRequest, User } from '@/types/auth';
+import { mockApiService } from './mockApi';
+
+// Use mock API for demo (set to false when backend is available)
+const USE_MOCK_API = true;
 
 export const authService = {
   // Register a new user
   async register(data: RegisterRequest): Promise<AuthResponse> {
+    if (USE_MOCK_API) {
+      return await mockApiService.register(data);
+    }
     const response = await api.post<AuthResponse>('/auth/register', data);
     return response.data;
   },
 
   // Login user
   async login(data: LoginRequest): Promise<AuthResponse> {
+    if (USE_MOCK_API) {
+      return await mockApiService.login(data);
+    }
     const response = await api.post<AuthResponse>('/auth/login', data);
     return response.data;
   },
@@ -36,6 +46,9 @@ export const authService = {
 
   // Get current user profile
   async getCurrentUser(): Promise<User> {
+    if (USE_MOCK_API) {
+      return await mockApiService.getCurrentUser();
+    }
     const response = await api.get<{ data: User }>('/users/me');
     return response.data.data;
   },

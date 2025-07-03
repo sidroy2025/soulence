@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { useAuthStore } from '@/stores/authStore';
+import { useAuthStore } from '../stores/authStore';
 import { 
   Heart, 
   Home, 
@@ -9,7 +9,9 @@ import {
   AlertTriangle, 
   LogOut,
   Menu,
-  X
+  X,
+  GraduationCap,
+  Moon
 } from 'lucide-react';
 
 interface LayoutProps {
@@ -24,7 +26,8 @@ export const Layout: React.FC<LayoutProps> = ({ children }) => {
   const navigation = [
     { name: 'Dashboard', href: '/dashboard', icon: Home },
     { name: 'Mood Log', href: '/mood', icon: Heart },
-    { name: 'Learning', href: '/learning', icon: BookOpen },
+    { name: 'Academic', href: '/academic', icon: GraduationCap },
+    { name: 'Sleep', href: '/sleep', icon: Moon },
     { name: 'Crisis Support', href: '/crisis', icon: AlertTriangle },
   ];
 
@@ -35,6 +38,11 @@ export const Layout: React.FC<LayoutProps> = ({ children }) => {
 
   return (
     <div className="min-h-screen bg-gray-50">
+      {/* Demo Banner */}
+      <div className="bg-blue-600 text-white text-center py-2 text-sm">
+        🎭 <strong>DEMO MODE</strong> - This is a live demo with mock data. Try logging in with any email/password!
+      </div>
+      
       {/* Navigation */}
       <nav className="bg-white shadow-sm border-b">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">

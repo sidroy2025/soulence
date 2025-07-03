@@ -1,9 +1,9 @@
 import React from 'react';
 import { useForm } from 'react-hook-form';
-import { useWellnessStore } from '@/stores/wellnessStore';
-import { LogMoodRequest } from '@/types/wellness';
-import { Layout } from '@/components/Layout';
-import { MoodPicker } from '@/components/MoodPicker';
+import { useWellnessStore } from '../stores/wellnessStore';
+import { LogMoodRequest } from '../types/wellness';
+import { Layout } from '../components/Layout';
+import { MoodPicker } from '../components/MoodPicker';
 import { 
   Calendar, 
   Clock, 

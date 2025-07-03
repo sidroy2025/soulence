@@ -1,6 +1,6 @@
 import React from 'react';
-import { useWellnessStore } from '@/stores/wellnessStore';
-import { Layout } from '@/components/Layout';
+import { useWellnessStore } from '../stores/wellnessStore';
+import { Layout } from '../components/Layout';
 import { 
   Phone, 
   MessageCircle, 

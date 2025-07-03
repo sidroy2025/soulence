@@ -136,10 +136,14 @@ export const MoodHistory: React.FC<MoodHistoryProps> = ({
               <div className="text-sm text-gray-600">Total Logs</div>
             </div>
             <div className="text-center">
-              <div className="flex items-center justify-center text-2xl">
+              <div className="flex items-center justify-center text-2xl mb-1">
                 {getTrendIcon()}
               </div>
-              <div className="text-sm text-gray-600 capitalize">
+              <div className={`text-sm font-medium capitalize ${
+                moodStats.trend === 'improving' ? 'text-green-600' :
+                moodStats.trend === 'declining' ? 'text-red-600' : 
+                'text-gray-600'
+              }`}>
                 {moodStats.trend}
               </div>
             </div>
